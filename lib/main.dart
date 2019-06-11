@@ -1,31 +1,226 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 
-void main(){
 
-  runApp(
-    MaterialApp(
-      title: 'Pelada FC',
-      home: SIForm(),
-        debugShowCheckedModeBanner: false
-    )
 
-  );
-
+void main() async{
+  runApp(MyApp());
 }
 
+bool rodrigoval = false;
+String dropdownValue = 'One';
 
-class SIForm extends StatefulWidget {
+final ThemeData kIOSTheme= ThemeData(
+  primarySwatch: Colors.orange,
+  primaryColor: Colors.grey[100],
+  primaryColorBrightness: Brightness.light
+);
+
+final ThemeData kDefaultTheme = ThemeData(
+  primarySwatch: Colors.purple,
+  accentColor: Colors.orangeAccent[400],
+);
+
+final _minimumPadding = 5.0;
+
+class MyApp extends StatelessWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _SIFormState();
+  Widget build(BuildContext context){
+    return MaterialApp(
+      title: "Pelada FC",
+      debugShowCheckedModeBanner: false,
+      theme: Theme.of(context).platform == TargetPlatform.iOS ?
+        kIOSTheme: kDefaultTheme,
+      home: CraqueScreen(),
+    );
   }
 
 }
 
+class CraqueScreen extends StatefulWidget {
+  @override
+  _CraqueScreenState createState() => _CraqueScreenState();
+}
 
-class _SIFormState extends State<SIForm> {
+class _CraqueScreenState extends State<CraqueScreen> {
+  @override
+
+
+
+  Widget build(BuildContext context) {
+    return SafeArea(
+      bottom: false,
+      top: false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Craque do jogo"),
+          centerTitle: true,
+          //backgroundColor: Colors.black38,
+          elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
+        ),
+        body: Column(
+         children: <Widget>[
+           Column(
+             children: <Widget>[
+               Padding(
+                  padding: EdgeInsets.only(
+                      top: _minimumPadding, bottom: _minimumPadding),
+                  child: CheckboxListTile(
+                    title: const Text('Rodrigo'),
+                    value: rodrigoval,
+                    onChanged: (bool value) {
+                      setState(() {
+                        rodrigoval = value;
+                      });
+                    },
+                  )
+               ),
+               Padding(
+                  padding: EdgeInsets.only(
+                      top: _minimumPadding, bottom: _minimumPadding),
+                  child: CheckboxListTile(
+                    title: const Text('Rodrigo'),
+                    value: rodrigoval,
+                    onChanged: (bool value) {
+                      setState(() {
+                        rodrigoval = value;
+                      });
+                    },
+                  )
+               ),
+               Padding(
+                  padding: EdgeInsets.only(
+                      top: _minimumPadding, bottom: _minimumPadding),
+                  child: CheckboxListTile(
+                    title: const Text('Rodrigo'),
+                    value: rodrigoval,
+                    onChanged: (bool value) {
+                      setState(() {
+                        rodrigoval = value;
+                      });
+                    },
+                  )
+               ),
+               Padding(
+                  padding: EdgeInsets.only(
+                      top: _minimumPadding, bottom: _minimumPadding),
+                  child: CheckboxListTile(
+                    title: const Text('Rodrigo'),
+                    value: rodrigoval,
+                    onChanged: (bool value) {
+                      setState(() {
+                        rodrigoval = value;
+                      });
+                    },
+                  )
+               ),
+               Padding(
+                  padding: EdgeInsets.only(
+                      top: _minimumPadding, bottom: _minimumPadding),
+                 child: DropdownButton<String>(
+                   value: dropdownValue,
+                   onChanged: (String newValue) {
+                     setState(() {
+                       dropdownValue = newValue;
+                     });
+                   },
+                   items: <String>['One', 'Two', 'Free', 'Four']
+                       .map<DropdownMenuItem<String>>((String value) {
+                     return DropdownMenuItem<String>(
+                       value: value,
+                       child: Text(value),
+                     );
+                   }).toList(),
+                 ),
+               ),
+             ],
+           ),
+           Container(
+              alignment: Alignment.center,
+              child: LogoImageAsset(),
+           ),
+           Column(
+             children: <Widget>[
+               Row (mainAxisAlignment: MainAxisAlignment.spaceAround,
+                 children: <Widget>[
+
+                   RaisedButton(
+                    //color: Theme.of(context).accentColor,
+                    //textColor: Theme.of(context).primaryColorDark,
+                    child: Text(
+                      'Enviar',
+                       textScaleFactor: 1.5
+                    ),
+                     onPressed: (){
+                     //lerresultado(context);
+                     }
+                   ),
+                   RaisedButton(
+                       //color: Theme.of(context).accentColor,
+                       //textColor: Theme.of(context).primaryColorDark,
+                       child: Text(
+                         'Ver Resultados',
+                          textScaleFactor: 1.5
+                       ),
+                     onPressed: (){
+                       lerresultado(context);
+                     }
+                   ),
+                ],
+              )
+             ]
+            ),
+
+         ]
+        )
+     )
+    );
+  }
+}
+
+
+class LogoImageAsset extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    AssetImage assetImage = AssetImage('images/logoPFC.png');
+    Image image = Image(image: assetImage, width: 125.0, height: 125.0,);
+    return Container(child: image,margin: EdgeInsets.all(_minimumPadding*5),);
+  }
+}
+
+void lerresultado(BuildContext context) async{
+
+  String $jogador = "armstrong";
+  //Int $votos=1;
+
+  Firestore.instance.collection("craquedagalera").snapshots().listen((snapshot){
+    for (DocumentSnapshot doc in snapshot.documents){
+      //$jogador = (doc.data.toString());
+      print (doc.data);
+
+    }
+
+  });
+
+  var alertDialog = AlertDialog(
+    title: Text("Resultado!"),
+    content: Text("Jogadores: "+ $jogador + "Total de votos respectivamente"),
+  );
+
+  showDialog(context: context, builder: (BuildContext context){
+    return alertDialog;
+  }
+  );
+
+
+}
+
+
+
+
+/*class _SIFormState extends State<SIForm> {
 
 
 
@@ -62,107 +257,129 @@ class _SIFormState extends State<SIForm> {
         key: _formKey,
         child: Padding(
           padding: EdgeInsets.all(_minimumPadding*2),
-        //margin: EdgeInsets.all(_minimumPadding*15),
-        child: ListView(
-          children: <Widget>[
-            getImageAsset(),
+          //margin: EdgeInsets.all(_minimumPadding*15),
+          child: ListView(
+            children: <Widget>[
+              getImageAsset(),
 
-            Padding(
-              padding: EdgeInsets.only(
-                top: _minimumPadding, bottom: _minimumPadding),
-
-              child: CheckboxListTile(
-                  title: const Text('Armstrong'),
-                  value: armstrongval,
-                  onChanged: (bool value) {
-                    setState(() {
-                    armstrongval = value;
-                    });
-                  },
-              )),
               Padding(
                   padding: EdgeInsets.only(
                       top: _minimumPadding, bottom: _minimumPadding),
-                child: CheckboxListTile(
-                  title: const Text('Rodrigo'),
-                  value: rodrigoval,
-                  onChanged: (bool value) {
-                    setState(() {
-                      rodrigoval = value;
-                    });
-                  },
-                )),
-                Padding(
-                    padding: EdgeInsets.only(
-                        top: _minimumPadding, bottom: _minimumPadding),
-                child: CheckboxListTile(
-                  title: const Text('PV'),
-                  value: pvval,
-                  onChanged: (bool value) {
-                    setState(() {
-                      pvval = value;
-                    });
-                  },
-                )
+
+                  child: CheckboxListTile(
+                    title: const Text('Armstrong'),
+                    value: armstrongval,
+                    onChanged: (bool value) {
+                      setState(() {
+                        armstrongval = value;
+                      });
+                    },
+                  )),
+              Padding(
+                  padding: EdgeInsets.only(
+                      top: _minimumPadding, bottom: _minimumPadding),
+                  child: CheckboxListTile(
+                    title: const Text('Rodrigo'),
+                    value: rodrigoval,
+                    onChanged: (bool value) {
+                      setState(() {
+                        rodrigoval = value;
+                      });
+                    },
+                  )),
+              Padding(
+                  padding: EdgeInsets.only(
+                      top: _minimumPadding, bottom: _minimumPadding),
+                  child: CheckboxListTile(
+                    title: const Text('PV'),
+                    value: pvval,
+                    onChanged: (bool value) {
+                      setState(() {
+                        pvval = value;
+                      });
+                    },
+                  )
               ),
-            Padding(
-              padding: EdgeInsets.only(
-                  top: _minimumPadding, bottom: _minimumPadding),
-              child: RaisedButton(
-                color: Theme.of(context).accentColor,
-                textColor: Theme.of(context).primaryColorDark,
-                child: Text(
-                  'Enviar',
-                  textScaleFactor: 1.5,
-                ),
-                onPressed: () {
-                  count = 0;
-                  voto = '';
+              Padding(
+                padding: EdgeInsets.only(
+                    top: _minimumPadding, bottom: _minimumPadding),
+                child: RaisedButton(
+                    color: Theme.of(context).accentColor,
+                    textColor: Theme.of(context).primaryColorDark,
+                    child: Text(
+                      'Enviar',
+                      textScaleFactor: 1.5,
+                    ),
+                    onPressed: () {
+                      count = 0;
+                      voto = '';
 
 
 
 //count é usado apenas para deixar 2 selecionados - soma dos votos é no banco de dados
-                  if (armstrongval) {
-                    voto = voto.toString() + '-armstrong';
-                    count = count + 1;
-                    //enviarVotosemcheckbox(context);
-                  }
+                      if (armstrongval) {
+                        voto = voto.toString() + '-armstrong';
+                        count = count + 1;
+                        //enviarVotosemcheckbox(context);
+                      }
 
-                  if (rodrigoval) {
-                    voto = voto.toString() + '-rodrigo';
-                    count = count + 1;
-                  }
+                      if (rodrigoval) {
+                        voto = voto.toString() + '-rodrigo';
+                        count = count + 1;
+                      }
 
-                  if (pvval) {
-                    voto = voto.toString() + '-pv';
-                    count = count + 1;
-                  }
+                      if (pvval) {
+                        voto = voto.toString() + '-pv';
+                        count = count + 1;
+                      }
 
-                  if (count == 2) {
-                    enviarVotoOK(context);
-                  }else {
-                    enviarVotosemcheckbox(context);
-                  }
-                }
+                      if (count == 2) {
+                        enviarVotoOK(context);
+                      }else {
+                        enviarVotosemcheckbox(context);
+                      }
+                    }
+                ),
               ),
-            )
-          ],
+              Padding(
+                padding: EdgeInsets.only(
+                  top: _minimumPadding, bottom: _minimumPadding),
+                  child: RaisedButton(
+                    color: Theme.of(context).accentColor,
+                    textColor: Theme.of(context).primaryColorDark,
+                    child: Text(
+                    'Ver Resultado',
+                     textScaleFactor: 1.5,
+                    ),
+                    onPressed: () {
+                      lerresultado(context);
+                    }
+                ),
+              )
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 
 
-  Widget getImageAsset(){
-    AssetImage assetImage = AssetImage('images/logoPFC.png');
-    Image image = Image(image: assetImage, width: 125.0, height: 125.0,);
-    return Container(child: image,margin: EdgeInsets.all(_minimumPadding*5),);
-  }
+Widget getImageAsset(){
+  AssetImage assetImage = AssetImage('images/logoPFC.png');
+  Image image = Image(image: assetImage, width: 125.0, height: 125.0,);
+  return Container(child: image,margin: EdgeInsets.all(_minimumPadding*5),);
+}
+
 
   void enviarVotoOK(BuildContext context){
 
+    Firestore.instance.collection("teste").document("teste").setData({"teste" : "teste"});
+
+
+
     var alertDialog = AlertDialog(
+
+
       title: Text("Voto realizado com sucesso em: "+voto.toString()),
       content: Text("Obrigado!"),
     );
@@ -191,4 +408,32 @@ class _SIFormState extends State<SIForm> {
   }
 
 
+  void lerresultado(BuildContext context) async{
+
+    String $jogador = "armstrong";
+    //Int $votos=1;
+
+    Firestore.instance.collection("craquedagalera").snapshots().listen((snapshot){
+      for (DocumentSnapshot doc in snapshot.documents){
+        //$jogador = (doc.data.toString());
+        print (doc.data);
+
+      }
+
+    });
+
+    var alertDialog = AlertDialog(
+      title: Text("Resultado!"),
+      content: Text("Jogadores: "+ $jogador + "Total de votos respectivamente"),
+    );
+
+    showDialog(context: context, builder: (BuildContext context){
+      return alertDialog;
+    }
+    );
+
+
+  }
+
 }
+*/
