@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-
-
-
-void main() async{
+void main() async {
   runApp(MyApp());
 }
 
+int Votos = 0;
 bool rodrigoval = false;
-String dropdownValue = 'One';
+String dropdownValue = 'Armstrong';
 
-final ThemeData kIOSTheme= ThemeData(
-  primarySwatch: Colors.orange,
-  primaryColor: Colors.grey[100],
-  primaryColorBrightness: Brightness.light
-);
+final ThemeData kIOSTheme = ThemeData(
+    primarySwatch: Colors.orange,
+    primaryColor: Colors.grey[100],
+    primaryColorBrightness: Brightness.light);
 
 final ThemeData kDefaultTheme = ThemeData(
   primarySwatch: Colors.purple,
@@ -27,16 +23,16 @@ final _minimumPadding = 5.0;
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: "Pelada FC",
       debugShowCheckedModeBanner: false,
-      theme: Theme.of(context).platform == TargetPlatform.iOS ?
-        kIOSTheme: kDefaultTheme,
+      theme: Theme.of(context).platform == TargetPlatform.iOS
+          ? kIOSTheme
+          : kDefaultTheme,
       home: CraqueScreen(),
     );
   }
-
 }
 
 class CraqueScreen extends StatefulWidget {
@@ -46,179 +42,197 @@ class CraqueScreen extends StatefulWidget {
 
 class _CraqueScreenState extends State<CraqueScreen> {
   @override
-
-
-
   Widget build(BuildContext context) {
     return SafeArea(
-      bottom: false,
-      top: false,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Craque do jogo"),
-          centerTitle: true,
-          //backgroundColor: Colors.black38,
-          elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
-        ),
-        body: Column(
-         children: <Widget>[
-           Column(
-             children: <Widget>[
-               Padding(
-                  padding: EdgeInsets.only(
-                      top: _minimumPadding, bottom: _minimumPadding),
-                  child: CheckboxListTile(
-                    title: const Text('Rodrigo'),
-                    value: rodrigoval,
-                    onChanged: (bool value) {
-                      setState(() {
-                        rodrigoval = value;
-                      });
-                    },
-                  )
-               ),
-               Padding(
-                  padding: EdgeInsets.only(
-                      top: _minimumPadding, bottom: _minimumPadding),
-                  child: CheckboxListTile(
-                    title: const Text('Rodrigo'),
-                    value: rodrigoval,
-                    onChanged: (bool value) {
-                      setState(() {
-                        rodrigoval = value;
-                      });
-                    },
-                  )
-               ),
-               Padding(
-                  padding: EdgeInsets.only(
-                      top: _minimumPadding, bottom: _minimumPadding),
-                  child: CheckboxListTile(
-                    title: const Text('Rodrigo'),
-                    value: rodrigoval,
-                    onChanged: (bool value) {
-                      setState(() {
-                        rodrigoval = value;
-                      });
-                    },
-                  )
-               ),
-               Padding(
-                  padding: EdgeInsets.only(
-                      top: _minimumPadding, bottom: _minimumPadding),
-                  child: CheckboxListTile(
-                    title: const Text('Rodrigo'),
-                    value: rodrigoval,
-                    onChanged: (bool value) {
-                      setState(() {
-                        rodrigoval = value;
-                      });
-                    },
-                  )
-               ),
-               Padding(
-                  padding: EdgeInsets.only(
-                      top: _minimumPadding, bottom: _minimumPadding),
-                 child: DropdownButton<String>(
-                   value: dropdownValue,
-                   onChanged: (String newValue) {
-                     setState(() {
-                       dropdownValue = newValue;
-                     });
-                   },
-                   items: <String>['One', 'Two', 'Free', 'Four']
-                       .map<DropdownMenuItem<String>>((String value) {
-                     return DropdownMenuItem<String>(
-                       value: value,
-                       child: Text(value),
-                     );
-                   }).toList(),
-                 ),
-               ),
-             ],
-           ),
-           Container(
-              alignment: Alignment.center,
-              child: LogoImageAsset(),
-           ),
-           Column(
-             children: <Widget>[
-               Row (mainAxisAlignment: MainAxisAlignment.spaceAround,
-                 children: <Widget>[
-
-                   RaisedButton(
-                    //color: Theme.of(context).accentColor,
-                    //textColor: Theme.of(context).primaryColorDark,
-                    child: Text(
-                      'Enviar',
-                       textScaleFactor: 1.5
-                    ),
-                     onPressed: (){
-                     //lerresultado(context);
-                     }
-                   ),
-                   RaisedButton(
-                       //color: Theme.of(context).accentColor,
-                       //textColor: Theme.of(context).primaryColorDark,
-                       child: Text(
-                         'Ver Resultados',
-                          textScaleFactor: 1.5
-                       ),
-                     onPressed: (){
-                       lerresultado(context);
-                     }
-                   ),
-                ],
-              )
-             ]
+        bottom: false,
+        top: false,
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text("Craque do jogo"),
+              centerTitle: true,
+              //backgroundColor: Colors.black38,
+              elevation:
+                  Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
             ),
+            body: Column(children: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                child: LogoImageAsset(),
+              ),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: _minimumPadding, bottom: _minimumPadding),
+                    child: DropdownButton<String>(
+                      value: dropdownValue,
+                      onChanged: (String newValue) {
+                        setState(() {
+                          dropdownValue = newValue;
+                        });
+                      },
+                      items: <String>[
+                        'Rodrigo(Digão)',
+                        'Armstrong',
+                        'Lucas',
+                        'Arthur',
+                        'Pedro',
+                        'Sidnei',
+                        'Wemerson',
+                        'Campolina',
+                        'Claydson',
+                        'Caio',
+                        'Pimenta',
+                        'Colômbia',
+                        'Daniel',
+                        'Henrique',
+                        'Moura',
+                        'Denis'
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              ),
+              Column(children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    RaisedButton(
+                        //color: Theme.of(context).accentColor,
+                        //textColor: Theme.of(context).primaryColorDark,
+                        child: Text('Enviar', textScaleFactor: 1.5),
+                        onPressed: () {
+                          enviarVotoOK(context);
+                        }),
+                    RaisedButton(
+                        //color: Theme.of(context).accentColor,
+                        //textColor: Theme.of(context).primaryColorDark,
+                        child: Text('Ver Resultados', textScaleFactor: 1.5),
+                        onPressed: () {
+                          lerresultado(context);
+                        }),
+                  ],
+                )
+              ]),
+            ])));
+  }
+}
 
-         ]
-        )
-     )
+class LogoImageAsset extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    AssetImage assetImage = AssetImage('images/logoPFC.png');
+    Image image = Image(
+      image: assetImage,
+      width: 125.0,
+      height: 125.0,
+    );
+    return Container(
+      child: image,
+      margin: EdgeInsets.all(_minimumPadding * 5),
     );
   }
 }
 
-
-class LogoImageAsset extends StatelessWidget{
-  @override
-  Widget build(BuildContext context){
-    AssetImage assetImage = AssetImage('images/logoPFC.png');
-    Image image = Image(image: assetImage, width: 125.0, height: 125.0,);
-    return Container(child: image,margin: EdgeInsets.all(_minimumPadding*5),);
-  }
-}
-
-void lerresultado(BuildContext context) async{
-
-  String $jogador = "armstrong";
+void lerresultado(BuildContext context) async {
+  //String $jogador = "armstrong";
   //Int $votos=1;
 
-  Firestore.instance.collection("craquedagalera").snapshots().listen((snapshot){
-    for (DocumentSnapshot doc in snapshot.documents){
+  //DocumentSnapshot snapshot = await Firestore.instance.collection("votacao").document().get();
+  //print (snapshot.data);
+  //List<String> votos;
+  //int count = 0;
+
+  QuerySnapshot snapshot = await Firestore.instance.collection("votacao").getDocuments();
+  //print (snapshot.documents);
+  for(DocumentSnapshot doc in snapshot.documents){
+    print(doc.data);
+   // doc.data.forEach(doc)
+    //votos[count] = doc.data.toString();
+    //count++;
+
+
+  }
+
+/*  Firestore.instance
+      .collection("votacao")
+      .snapshots()
+      .listen((snapshot) {
+    for (DocumentSnapshot doc in snapshot.documents) {
       //$jogador = (doc.data.toString());
-      print (doc.data);
-
+      print(doc.data);
     }
-
   });
+*/
 
   var alertDialog = AlertDialog(
     title: Text("Resultado!"),
-    content: Text("Jogadores: "+ $jogador + "Total de votos respectivamente"),
+    content: Text("Jogadores: Total de votos respectivamente"),
   );
 
-  showDialog(context: context, builder: (BuildContext context){
-    return alertDialog;
-  }
-  );
-
-
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alertDialog;
+      });
 }
 
+void enviarVotoOK(BuildContext context) async{
+
+  //int JafoiVotado = 0;
+
+  //QuerySnapshot snapshot = await Firestore.instance.collection(dropdownValue).getDocuments();
+  DocumentSnapshot snapshot = await Firestore.instance.collection(dropdownValue).document("Resultado").get();
+
+  //print (snapshot.documents);
+  //for(DocumentSnapshot doc in snapshot.documents){
+    //Votos = Votos + 1;
+  //}
+  //if(snapshot.documents.length>0){
+  if(snapshot.exists){
+    Votos = int.parse(snapshot.data.values.toString());
+    Votos++;
+
+  }else{Votos = 1;}
+
+  //print(snapshot.documents.getda);
+  //print (snapshot.documents.length);
+  //print(dropdownValue);
+  //print(snapshot.data);
+  //print (snapshot.data.values);
+  //print(Votos);
+
+  //if(JafoiVotado!=0) {
+    //Firestore.instance.collection("votacao").document().setData({dropdownValue: "1"});
+    Firestore.instance.collection(dropdownValue).document("Resultado").setData({"Soma dos Votos": Votos.toString()});
+ // }else {
+   // Firestore.instance.collection("votacao").document(dropdownValue).setData({Votos:"1"});
+  //}
 
 
+    var alertDialog = AlertDialog(
+      title: Text("Voto computado: \n" + dropdownValue),
+      content: FlatButton(
+        child: Text('OK'), textColor: Colors.green,
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alertDialog;
+        });
+  
+}
 
 /*class _SIFormState extends State<SIForm> {
 
