@@ -195,8 +195,13 @@ void enviarVotoOK(BuildContext context) async{
   //}
   //if(snapshot.documents.length>0){
   if(snapshot.exists){
-    Votos = int.parse(snapshot.data.values.toString());
-    Votos++;
+    String SomaAntiga = snapshot.data.values.toString();
+    print (SomaAntiga);
+    print (SomaAntiga.length);
+    SomaAntiga = SomaAntiga.substring(1,2);
+    print (SomaAntiga);
+    Votos = int.parse(SomaAntiga)+1;
+    //Votos++;
 
   }else{Votos = 1;}
 
