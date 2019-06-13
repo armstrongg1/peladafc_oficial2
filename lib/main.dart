@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 void main() async {
   runApp(MyApp());
 }
 
 int Votos = 0;
 bool rodrigoval = false;
-String dropdownValue = 'Armstrong';
+//String dropdownValue = 'Escolha...';
+String dropdownValue;
+
+
 
 final ThemeData kIOSTheme = ThemeData(
     primarySwatch: Colors.orange,
@@ -65,6 +69,9 @@ class _CraqueScreenState extends State<CraqueScreen> {
                     padding: EdgeInsets.only(
                         top: _minimumPadding, bottom: _minimumPadding),
                     child: DropdownButton<String>(
+                      isExpanded: false,
+                      hint: new Text("Escolha...",
+                          textAlign: TextAlign.center),
                       value: dropdownValue,
                       onChanged: (String newValue) {
                         setState(() {
@@ -72,22 +79,22 @@ class _CraqueScreenState extends State<CraqueScreen> {
                         });
                       },
                       items: <String>[
-                        'Rodrigo(Digão)',
                         'Armstrong',
-                        'Lucas',
                         'Arthur',
-                        'Pedro',
-                        'Sidnei',
-                        'Wemerson',
+                        'Caio',
                         'Campolina',
                         'Claydson',
-                        'Caio',
-                        'Pimenta',
                         'Colômbia',
                         'Daniel',
+                        'Denis',
                         'Henrique',
+                        'Jonhatan(Pimenta)',
+                        'Lucas',
                         'Moura',
-                        'Denis'
+                        'Pedro',
+                        'Rodrigo(Digão)',
+                        'Sidnei',
+                        'Wemerson(Ramires)'
                       ].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -106,15 +113,16 @@ class _CraqueScreenState extends State<CraqueScreen> {
                         //color: Theme.of(context).accentColor,
                         //textColor: Theme.of(context).primaryColorDark,
                         child: Text('Enviar', textScaleFactor: 1.5),
+
                         onPressed: () {
-                          enviarVotoOK(context);
+                          if (dropdownValue != null) {enviarVotoOK(context);}
                         }),
                     RaisedButton(
                         //color: Theme.of(context).accentColor,
                         //textColor: Theme.of(context).primaryColorDark,
                         child: Text('Ver Resultados', textScaleFactor: 1.5),
                         onPressed: () {
-                          lerresultado(context);
+                          if (dropdownValue != null) {lerresultado(context);}
                         }),
                   ],
                 )
@@ -139,40 +147,67 @@ class LogoImageAsset extends StatelessWidget {
   }
 }
 
+
+
 void lerresultado(BuildContext context) async {
-  //String $jogador = "armstrong";
-  //Int $votos=1;
 
-  //DocumentSnapshot snapshot = await Firestore.instance.collection("votacao").document().get();
-  //print (snapshot.data);
-  //List<String> votos;
-  //int count = 0;
+  String ResultadoCraque = "";
 
-  QuerySnapshot snapshot = await Firestore.instance.collection("votacao").getDocuments();
-  //print (snapshot.documents);
+  //Query collectionRef = Firestore.instance.collection("CraquedoJogo").orderBy("SomadosVotos");
+  //print (collectionRef);
+  //print (collectionRef.getDocuments());
+  //print (collectionRef.getDocuments().toString());
+  //print (collectionRef.toString());
+  //print (collectionRef.snapshots().length);
+  //print (collectionRef.snapshots());
+
+  //Stream<QuerySnapshot> _query =  Firestore.instance.collection('CraquedoJogo').orderBy('SomadosVotos', descending: true)
+    //  .snapshots();
+
+  //Stream snapshot2 = await Firestore.instance
+    //  .collection('CraquedoJogo')
+      ////.where('createdAt', isLessThanOrEqualTo: timestamp)
+      //.orderBy('SomadosVotos', descending: true)
+      //.snapshots();
+  //print (snapshot2.reduce());
+
+
+  //print (_query.length.asStream());
+
+  //print (collectionRef.toString());
+  //print (collectionRef.document());
+  //print (collectionRef.getDocuments().toString());
+  //print (collectionRef.getDocuments());
+  //Query query = collectionRef.orderBy("SomadosVotos").limit(1);
+  //print (query.toString());
+  //print (query.getDocuments().toString());
+
+  QuerySnapshot snapshot = await Firestore.instance.collection("CraquedoJogo").getDocuments();
+
   for(DocumentSnapshot doc in snapshot.documents){
-    print(doc.data);
-   // doc.data.forEach(doc)
-    //votos[count] = doc.data.toString();
-    //count++;
 
+    ResultadoCraque = ResultadoCraque + "\n" + doc.documentID+" : "+doc.data.values.first;
+
+    //print(doc.data);
+    //print (doc.data.keys.first);
+    //print (doc.data.keys);
+    //print (doc.data.values);
+    //print (doc.data.values.first);
+    //print(doc.toString());
+    //print(doc.metadata);
+    //print(doc.documentID);
 
   }
 
-/*  Firestore.instance
-      .collection("votacao")
-      .snapshots()
-      .listen((snapshot) {
-    for (DocumentSnapshot doc in snapshot.documents) {
-      //$jogador = (doc.data.toString());
-      print(doc.data);
-    }
-  });
-*/
-
   var alertDialog = AlertDialog(
-    title: Text("Resultado!"),
-    content: Text("Jogadores: Total de votos respectivamente"),
+    title: Text(ResultadoCraque),
+    content: FlatButton(
+      child: Text('OK'), textColor: Colors.green,
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    ),
+
   );
 
   showDialog(
@@ -187,7 +222,7 @@ void enviarVotoOK(BuildContext context) async{
   //int JafoiVotado = 0;
 
   //QuerySnapshot snapshot = await Firestore.instance.collection(dropdownValue).getDocuments();
-  DocumentSnapshot snapshot = await Firestore.instance.collection(dropdownValue).document("Resultado").get();
+  DocumentSnapshot snapshot = await Firestore.instance.collection("CraquedoJogo").document(dropdownValue).get();
 
   //print (snapshot.documents);
   //for(DocumentSnapshot doc in snapshot.documents){
@@ -196,10 +231,10 @@ void enviarVotoOK(BuildContext context) async{
   //if(snapshot.documents.length>0){
   if(snapshot.exists){
     String SomaAntiga = snapshot.data.values.toString();
-    print (SomaAntiga);
-    print (SomaAntiga.length);
+    //print (SomaAntiga);
+    //print (SomaAntiga.length);
     SomaAntiga = SomaAntiga.substring(1,2);
-    print (SomaAntiga);
+    //print (SomaAntiga);
     Votos = int.parse(SomaAntiga)+1;
     //Votos++;
 
@@ -214,7 +249,7 @@ void enviarVotoOK(BuildContext context) async{
 
   //if(JafoiVotado!=0) {
     //Firestore.instance.collection("votacao").document().setData({dropdownValue: "1"});
-    Firestore.instance.collection(dropdownValue).document("Resultado").setData({"Soma dos Votos": Votos.toString()});
+    Firestore.instance.collection("CraquedoJogo").document(dropdownValue).setData({"SomadosVotos": Votos.toString()});
  // }else {
    // Firestore.instance.collection("votacao").document(dropdownValue).setData({Votos:"1"});
   //}
