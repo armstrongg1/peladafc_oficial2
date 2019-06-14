@@ -153,40 +153,43 @@ void lerresultado(BuildContext context) async {
 
   String ResultadoCraque = "";
 
-  //Query collectionRef = Firestore.instance.collection("CraquedoJogo").orderBy("SomadosVotos");
-  //print (collectionRef);
-  //print (collectionRef.getDocuments());
-  //print (collectionRef.getDocuments().toString());
-  //print (collectionRef.toString());
-  //print (collectionRef.snapshots().length);
-  //print (collectionRef.snapshots());
-
-  //Stream<QuerySnapshot> _query =  Firestore.instance.collection('CraquedoJogo').orderBy('SomadosVotos', descending: true)
-    //  .snapshots();
-
-  //Stream snapshot2 = await Firestore.instance
-    //  .collection('CraquedoJogo')
-      ////.where('createdAt', isLessThanOrEqualTo: timestamp)
-      //.orderBy('SomadosVotos', descending: true)
-      //.snapshots();
-  //print (snapshot2.reduce());
-
-
-  //print (_query.length.asStream());
-
-  //print (collectionRef.toString());
-  //print (collectionRef.document());
-  //print (collectionRef.getDocuments().toString());
-  //print (collectionRef.getDocuments());
-  //Query query = collectionRef.orderBy("SomadosVotos").limit(1);
-  //print (query.toString());
-  //print (query.getDocuments().toString());
 
   QuerySnapshot snapshot = await Firestore.instance.collection("CraquedoJogo").getDocuments();
 
+  //QuerySnapshot snapshot2 = snapshot.documents.sort(a,b);
+
+  //List<int> documentosVotos = [];
+  //List<String> documentosJogadores = [];
+  List<Aluno> AlunosJogadores = [];
+  int countDocumentos =0;
+
   for(DocumentSnapshot doc in snapshot.documents){
 
-    ResultadoCraque = ResultadoCraque + "\n" + doc.documentID+" : "+doc.data.values.first;
+    //Aluno aluno1 =
+
+    AlunosJogadores.add(new Aluno(doc.documentID, int.parse(doc.data.values.first)));
+    countDocumentos++;
+
+    //ResultadoCraque = ResultadoCraque + "\n" + doc.documentID+" : "+doc.data.values.first;
+    //print (doc.metadata.toString());
+    //print(countDocumentos);
+    /*if (documentosJogadores.length > 0 && documentosVotos[0] <= int.parse(doc.data.values.first)){
+      //if (documentosVotos[0] < int.parse(doc.data.values.first)) {
+        documentosJogadores.insert(0,doc.documentID);
+        documentosVotos.insert(0,int.parse(doc.data.values.first));
+      //}
+
+    }else{
+      documentosJogadores.add(doc.documentID);
+      documentosVotos.add(int.parse(doc.data.values.first));
+
+    }
+
+
+    print(AlunosJogadores.length);*/
+
+
+    //print(doc.data.keys);
 
     //print(doc.data);
     //print (doc.data.keys.first);
@@ -198,6 +201,34 @@ void lerresultado(BuildContext context) async {
     //print(doc.documentID);
 
   }
+
+  AlunosJogadores.sort((a,b){
+    if(a.pontos < b.pontos) {
+      return 1;
+    }
+    else return -1;
+  });
+
+  //ResultadoCraque = "";
+  for(int i=0;i<AlunosJogadores.length;i++){
+    ResultadoCraque = ResultadoCraque + "\n" + AlunosJogadores[i].nome+" : "+AlunosJogadores[i].pontos.toString();
+    //print(AlunosJogadores[i]);
+  }
+//
+//  print(AlunosJogadores[0].nome);
+//  print(AlunosJogadores[0].pontos);
+//  //print (documentosJogadores.length);
+//  //print (documentosVotos.length);
+//  //documentosJogadores.sort();
+//  //documentosVotos.sort();
+//  print (documentosJogadores[0]);
+//  print (documentosJogadores[1]);
+//  print (documentosJogadores[2]);
+//  print (documentosJogadores[3]);
+//  print (documentosVotos[0]);
+//  print (documentosVotos[1]);
+//  print (documentosVotos[2]);
+//  print (documentosVotos[3]);
 
   var alertDialog = AlertDialog(
     title: Text(ResultadoCraque),
@@ -271,7 +302,21 @@ void enviarVotoOK(BuildContext context) async{
         builder: (BuildContext context) {
           return alertDialog;
         });
-  
+}
+
+
+class Aluno {
+
+  String nome;
+  int pontos;
+
+  Aluno(String nome, int pontos){
+    this.nome = nome;
+    this.pontos = pontos;
+  }
+
+  //métodos
+
 }
 
 /*class _SIFormState extends State<SIForm> {
