@@ -28,6 +28,7 @@ dependencies:
   firebase_auth: 0.11.1+6
   firebase_storage: 3.0.1
   flutter_launcher_icons: ^0.7.2
+  url_launcher: ^4.2.0+3
 
 dev_dependencies:
   flutter_test:
