@@ -57,21 +57,22 @@ class _craquedojogoState extends State<craquedojogo> {
                       items: <String>[
                         'Armstrong',
                         'Arthur',
-                        'Bernard',
+                        'Bruno',
                         'Caio',
-                        'Claydson',
+                        'Colômbia',
                         'Daniel',
-                        'Danilo',
-                        'Donato',
+                        'Digão',
+                        'Fabricio',
                         'Henrique',
-                        'Jonhatan(Pimenta)',
+                        'Paulo',
+                        'PV',
+                        'Jonathan',
                         'Lucas',
-                        'Marcelo',
+                        'Matheus',
                         'Moura',
-                        'Paulo (Lessa)',
-                        'Rodrigo(Digão)',
-                        'Thiago',
-                        'Wallace'
+                        'Renato',
+                        'Sidnei',
+                        'Wemerson'
                       ].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
