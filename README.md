@@ -1,6 +1,6 @@
 # flutter_pelada
 
-A new Flutter application.
+A new Flutter application for my team of soccer.
 
 ## Getting Started
 
